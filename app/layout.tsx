@@ -1,14 +1,20 @@
 import type { Metadata } from 'next'
-import { Poppins } from 'next/font/google'
+// import { Poppins } from 'next/font/google'
 import './globals.css'
 
 import Provider from '@/components/Auth/Provider';
+import { Toaster } from '@/components/ui/toaster';
+
+import { Lexend_Deca} from 'next/font/google'
 
 
-const poppins = Poppins({
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-});
+const marhey = Lexend_Deca({ weight: ['400', '500', '600', '700'], subsets: ['latin'] })
+
+
+// const poppins = Poppins({
+//   weight: ['400', '500', '600', '700'],
+//   subsets: ['latin'],
+// });
 
 export const metadata: Metadata = {
   title: 'JournalX - World\'s Best AI Journaling Platform.',
@@ -23,11 +29,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={marhey.className}>
         <Provider>
           {children}
         </Provider>
-        
+        <Toaster />
       </body>
     </html>
   )

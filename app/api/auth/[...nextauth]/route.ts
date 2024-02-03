@@ -3,7 +3,7 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signIn } from 'next-auth/react';
 
-const rotationInterval = 10; // Rotation interval in seconds (5 minutes)
+const rotationInterval = 60 * 5; // Rotation interval in seconds (5 minutes)
 
 // To rotate the access token using the refresh token
 async function refreshAccessToken(tokenObject: any) {
@@ -11,7 +11,7 @@ async function refreshAccessToken(tokenObject: any) {
   console.log(tokenObject.access);
   try {
     // Get a new access token with a refreshToken
-    const res = await fetch('http://localhost:8000/auth/jwt/refresh', {
+    const res = await fetch(`${process.env.BACKEND_URL}/auth/jwt/refresh`, {
       method: 'POST',
       body: JSON.stringify({ refresh: tokenObject.refresh }),
       headers: {
@@ -87,7 +87,7 @@ export const authOptions: NextAuthOptions = {
       },
       authorize: async (credentials, req) => {
         try {
-          const res = await fetch("http://localhost:8000/auth/jwt/create/", {
+          const res = await fetch(`${process.env.BACKEND_URL}/auth/jwt/create/`, {
             method: "POST",
             body: JSON.stringify({
               email: credentials?.email,
@@ -111,7 +111,7 @@ export const authOptions: NextAuthOptions = {
           const access = parsedResponse.access;
 
           // Get the user details
-          const userRes = await fetch("http://localhost:8000/auth/users/me/", {
+          const userRes = await fetch(`${process.env.BACKEND_URL}/auth/users/me/`, {
             method: "GET",
             headers: {
               "Authorization": `Bearer ${access}`
